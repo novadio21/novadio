@@ -1,0 +1,33 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = trim($_POST["name"]);
+    $email = trim($_POST["email"]);
+    $age = trim($_POST["age"]);
+
+    $errors = [];
+
+    // Validasi nama
+    if (strlen($name) < 3) {
+        $errors[] = "Isikan dengan nama anda";
+    }
+
+    // Validasi email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Format email tidak valid.";
+    }
+
+    // Validasi usia
+    if (!is_numeric($age) || $age < 18) {
+        $errors[] = "Usia harus angka dan minimal 18 tahun.";
+    }
+
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            echo "<p style='color:red;'>$error</p>";
+        }
+    } else {
+        echo "<p style='color:green;'>Data berhasil dikirim!</p>";
+        // Proses data lebih lanjut (misalnya simpan ke database)
+    }
+}
+?>
